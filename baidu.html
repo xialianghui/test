@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style type="text/css">
+      body,
+      html {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        font-family: "微软雅黑";
+      }
+      #container {
+        width: 100%;
+        height: 100%;
+      }
+      #result {
+        position: fixed;
+        top: 10px;
+        left: 20px;
+        width: 300px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        background: #fff;
+        box-shadow: 0 2px 6px 0 rgba(27, 142, 236, 0.5);
+        border-radius: 7px;
+        z-index: 99;
+      }
+    </style>
+    <script
+      type="text/javascript"
+      src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=ApT3qT7UpZGVqBDg85boogPXM7OhiOCA"
+    ></script>
+    <title>酒店位置</title>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script>
+      var map = new BMapGL.Map("container");
+      map.enableScrollWheelZoom(true);
+      map.centerAndZoom(
+        new BMapGL.Point(113.03694099794296, 28.168765997896568),
+        11
+      );
+
+      var arr = [
+        {
+          name: "华雅国际大酒店",
+          point: new BMapGL.Point(113.03694, 28.168765),
+          offset:new BMapGL.Size(-80, 0)
+        },
+        {
+          name: "圣爵菲斯大酒店",
+          point: new BMapGL.Point(113.05683702769358, 28.242334033535833),
+          offset:new BMapGL.Size(0, -80)
+        },
+        {
+          name: "晟通国际会议中心酒店",
+          point: new BMapGL.Point(112.85202301216405, 28.321843980538617),
+          offset:new BMapGL.Size(0, -80)
+        },
+      ];
+      var n = 1;
+      var text = arr[n].name;
+      var p = arr[n].point;
+
+      var opts = {
+        position: p,
+        offset: arr[n].offset, // 设置文本偏移量
+      };
+      // 创建文本标注对象
+      var label = new BMapGL.Label(text, opts);
+      // 自定义文本标注样式
+      label.setStyle({
+        color: "blue",
+        borderRadius: "5px",
+        borderColor: "#ccc",
+        padding: "10px",
+        fontSize: "16px",
+        height: "30px",
+        lineHeight: "30px",
+        fontFamily: "微软雅黑",
+      });
+      map.addOverlay(label);
+
+      var p1 = new BMapGL.Point(113.231578, 28.194021);
+      var driving1 = new BMapGL.DrivingRoute(map, {
+        renderOptions: { map: map, autoViewport: true },
+      });
+      driving1.search(p, p1);
+
+      var p2 = new BMapGL.Point(113.071579, 28.15323);
+      var driving2 = new BMapGL.DrivingRoute(map, {
+        renderOptions: { map: map, autoViewport: true },
+      });
+      driving2.search(p, p2);
+
+      var p3 = new BMapGL.Point(113.019454, 28.200103);
+      var driving3 = new BMapGL.DrivingRoute(map, {
+        renderOptions: { map: map, autoViewport: true },
+      });
+      driving3.search(p, p3);
+    </script>
+  </body>
+</html>
