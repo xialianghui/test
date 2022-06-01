@@ -35,73 +35,92 @@
     ></script>
     <title>酒店位置</title>
   </head>
-  <body>
-    <div id="container"></div>
+  <body onload="onLoad()">
+    <div id="label"></div>
+    <div id="container" style="display: none"></div>
     <script>
-      var map = new BMapGL.Map("container");
-      map.enableScrollWheelZoom(true);
-      map.centerAndZoom(
-        new BMapGL.Point(113.03694099794296, 28.168765997896568),
-        11
-      );
-
       var arr = [
         {
           name: "华雅国际大酒店",
           point: new BMapGL.Point(113.03694, 28.168765),
-          offset:new BMapGL.Size(-80, 0)
+          offset: new BMapGL.Size(-80, 0),
         },
         {
           name: "圣爵菲斯大酒店",
           point: new BMapGL.Point(113.05683702769358, 28.242334033535833),
-          offset:new BMapGL.Size(0, -80)
+          offset: new BMapGL.Size(0, -80),
         },
         {
           name: "晟通国际会议中心酒店",
           point: new BMapGL.Point(112.85202301216405, 28.321843980538617),
-          offset:new BMapGL.Size(0, -80)
+          offset: new BMapGL.Size(0, -80),
         },
       ];
-      var n = 1;
-      var text = arr[n].name;
-      var p = arr[n].point;
 
-      var opts = {
-        position: p,
-        offset: arr[n].offset, // 设置文本偏移量
-      };
-      // 创建文本标注对象
-      var label = new BMapGL.Label(text, opts);
-      // 自定义文本标注样式
-      label.setStyle({
-        color: "blue",
-        borderRadius: "5px",
-        borderColor: "#ccc",
-        padding: "10px",
-        fontSize: "16px",
-        height: "30px",
-        lineHeight: "30px",
-        fontFamily: "微软雅黑",
-      });
-      map.addOverlay(label);
+      function onLoad() {
+        let lable = document.getElementById("label");
+        for (var i = 0; i < arr.length; i++) {
+          var a = document.createElement("a");
+          a.innerHTML = arr[i].name + "<br>";
+          a.href = "#";
+          a.name = i;
+          a.onclick = function (){
+            initMap(this.name)
+          }
+          lable.appendChild(a);
+        }
+      }
 
-      var p1 = new BMapGL.Point(113.231578, 28.194021);
-      var driving1 = new BMapGL.DrivingRoute(map, {
-        renderOptions: { map: map, autoViewport: true },
-      });
-      driving1.search(p, p1);
+      function initMap(n) {
+        document.getElementById("label").style.display = "none";
+        document.getElementById("container").style.display = "";
+        var map = new BMapGL.Map("container");
+        map.enableScrollWheelZoom(true);
+        map.centerAndZoom(
+          new BMapGL.Point(113.03694099794296, 28.168765997896568),
+          11
+        );
 
-      var p2 = new BMapGL.Point(113.071579, 28.15323);
-      var driving2 = new BMapGL.DrivingRoute(map, {
-        renderOptions: { map: map, autoViewport: true },
-      });
-      driving2.search(p, p2);
+        var text = arr[n].name;
+        var p = arr[n].point;
 
-      var p3 = new BMapGL.Point(113.019454, 28.200103);
-      var driving3 = new BMapGL.DrivingRoute(map, {
-        renderOptions: { map: map, autoViewport: true },
-      });
-      driving3.search(p, p3);
+        var opts = {
+          position: p,
+          offset: arr[n].offset, // 设置文本偏移量
+        };
+        // 创建文本标注对象
+        var label = new BMapGL.Label(text, opts);
+        // 自定义文本标注样式
+        label.setStyle({
+          color: "blue",
+          borderRadius: "5px",
+          borderColor: "#ccc",
+          padding: "10px",
+          fontSize: "16px",
+          height: "30px",
+          lineHeight: "30px",
+          fontFamily: "微软雅黑",
+        });
+        map.addOverlay(label);
+
+        var p1 = new BMapGL.Point(113.231578, 28.194021);
+        var driving1 = new BMapGL.DrivingRoute(map, {
+          renderOptions: { map: map, autoViewport: true },
+        });
+        driving1.search(p, p1);
+
+        var p2 = new BMapGL.Point(113.071579, 28.15323);
+        var driving2 = new BMapGL.DrivingRoute(map, {
+          renderOptions: { map: map, autoViewport: true },
+        });
+        driving2.search(p, p2);
+
+        var p3 = new BMapGL.Point(113.019454, 28.200103);
+        var driving3 = new BMapGL.DrivingRoute(map, {
+          renderOptions: { map: map, autoViewport: true },
+        });
+        driving3.search(p, p3);
+      }
     </script>
   </body>
 </html>
